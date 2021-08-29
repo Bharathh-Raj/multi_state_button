@@ -30,14 +30,17 @@ class MultiStateButton extends StatefulWidget {
   _MultiStateButtonState createState() => _MultiStateButtonState();
 }
 
-class _MultiStateButtonState extends State<MultiStateButton> with SingleTickerProviderStateMixin {
+class _MultiStateButtonState extends State<MultiStateButton>
+    with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
   late final Animation<double> _animation;
 
   @override
   void initState() {
-    _controller = AnimationController(vsync: this, duration: widget.transitionDuration);
-    _animation = CurvedAnimation(parent: _controller, curve: widget.transitionCurve);
+    _controller =
+        AnimationController(vsync: this, duration: widget.transitionDuration);
+    _animation =
+        CurvedAnimation(parent: _controller, curve: widget.transitionCurve);
     _controller.forward(from: 1);
     widget.multiStateButtonController.buttonStateName.addListener(() {
       _controller.forward(from: 0);
@@ -56,7 +59,8 @@ class _MultiStateButtonState extends State<MultiStateButton> with SingleTickerPr
     return ValueListenableBuilder<String>(
       valueListenable: widget.multiStateButtonController.buttonStateName,
       builder: (context, value, child) {
-        final ButtonState currentButtonState = widget.buttonStates.firstWhere((element) => element.stateName == value);
+        final ButtonState currentButtonState = widget.buttonStates
+            .firstWhere((element) => element.stateName == value);
         return GestureDetector(
           onTap: currentButtonState.onPressed,
           child: AnimatedContainer(
@@ -64,7 +68,9 @@ class _MultiStateButtonState extends State<MultiStateButton> with SingleTickerPr
             margin: EdgeInsets.all(0),
             width: currentButtonState.size?.width,
             height: currentButtonState.size?.height,
-            color: currentButtonState.decoration == null ? currentButtonState.color : null,
+            color: currentButtonState.decoration == null
+                ? currentButtonState.color
+                : null,
             decoration: currentButtonState.decoration,
             alignment: currentButtonState.alignment,
             duration: widget.transitionDuration,
