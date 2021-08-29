@@ -13,7 +13,7 @@ class MultiStateButton extends StatefulWidget {
     Key? key,
     required this.buttonStates,
     required this.multiStateButtonController,
-    this.animationDuration = const Duration(seconds: 1),
+    this.animationDuration = const Duration(milliseconds: 500),
     this.animationCurve = Curves.easeIn,
   }) : super(key: key);
 
