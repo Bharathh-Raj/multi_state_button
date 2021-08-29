@@ -3,21 +3,15 @@ import 'package:multi_state_button/multi_state_button.dart';
 
 void main() => runApp(MyApp());
 
-class MyApp extends StatefulWidget {
-  MyApp({Key? key}) : super(key: key);
-
-  @override
-  _MyAppState createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  late final MultiStateButtonController multiStateButtonController;
-
-  @override
-  void initState() {
-    multiStateButtonController = MultiStateButtonController(initialStateName: "Submit");
-    super.initState();
-  }
+class MyApp extends StatelessWidget {
+  static const String _submit = "Submit";
+  static const String _loading = "Loading";
+  static const String _tryAgain = "Try Again";
+  static const String _error = "Error";
+  static const String _block = "Block";
+  static const String _success = "Success";
+  static const String _tick = "Tick";
+  final MultiStateButtonController multiStateButtonController = MultiStateButtonController(initialStateName: _submit);
 
   @override
   Widget build(BuildContext context) {
@@ -27,15 +21,16 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(title: const Text("Multi State Button Example")),
         body: Center(
           child: MultiStateButton(
+            multiStateButtonController: multiStateButtonController,
             buttonStates: [
               ButtonState(
-                  stateName: "Submit",
+                  stateName: _submit,
                   child: Text(
-                    "Submit",
+                    _submit,
                   ),
                   textStyle: TextStyle(color: Colors.white, fontSize: 20),
                   size: Size(160, 48),
-                  boxDecoration: BoxDecoration(
+                  decoration: BoxDecoration(
                     color: Colors.blue,
                     borderRadius: BorderRadius.all(Radius.circular(24)),
                     boxShadow: <BoxShadow>[
@@ -48,32 +43,10 @@ class _MyAppState extends State<MyApp> {
                     ],
                   ),
                   onPressed: () {
-                    multiStateButtonController.setButtonState = "Loading";
+                    multiStateButtonController.setButtonState = _loading;
                   }),
               ButtonState(
-                  stateName: "Loading",
-                  alignment: Alignment.centerRight,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: SizedBox(
-                      height: 24,
-                      width: 24,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 3,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                  boxDecoration: BoxDecoration(
-                    color: Colors.teal,
-                    borderRadius: BorderRadius.all(Radius.circular(48)),
-                  ),
-                  size: Size(160, 48),
-                  onPressed: () {
-                    multiStateButtonController.setButtonState = "Loading2";
-                  }),
-              ButtonState(
-                  stateName: "Loading2",
+                  stateName: _loading,
                   alignment: Alignment.center,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -86,17 +59,17 @@ class _MyAppState extends State<MyApp> {
                       ),
                     ),
                   ),
-                  boxDecoration: BoxDecoration(
+                  decoration: BoxDecoration(
                     color: Colors.teal,
                     borderRadius: BorderRadius.all(Radius.circular(48)),
                   ),
-                  size: Size(160, 48),
+                  size: Size(48, 48),
                   onPressed: () {
-                    multiStateButtonController.setButtonState = "Try Again";
+                    multiStateButtonController.setButtonState = _tryAgain;
                   }),
               ButtonState(
-                  stateName: "Try Again",
-                  boxDecoration: BoxDecoration(
+                  stateName: _tryAgain,
+                  decoration: BoxDecoration(
                     color: Colors.orange,
                     borderRadius: BorderRadius.all(Radius.circular(24)),
                     boxShadow: const <BoxShadow>[
@@ -109,48 +82,53 @@ class _MyAppState extends State<MyApp> {
                     ],
                   ),
                   child: Text(
-                    "Try Again",
+                    _tryAgain,
                   ),
                   size: Size(160, 48),
                   textStyle: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w500),
                   onPressed: () {
-                    multiStateButtonController.setButtonState = "Error";
+                    multiStateButtonController.setButtonState = _error;
                   }),
               ButtonState(
-                  stateName: "Error",
-                  child: Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Error",
-                        ),
-                        const SizedBox(
-                          width: 16,
-                        ),
-                        Icon(
-                          Icons.error_outline,
-                          color: Colors.white,
-                        )
-                      ],
-                    ),
-                  ),
-                  textStyle: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
-                  boxDecoration: BoxDecoration(
-                    color: Colors.red,
-                    borderRadius: BorderRadius.all(Radius.circular(12)),
-                  ),
-                  size: Size(160, 48),
-                  onPressed: () {
-                    multiStateButtonController.setButtonState = "Success";
-                  }),
-              ButtonState(
-                  stateName: "Success",
+                  stateName: _error,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "Success",
+                        _error,
+                      ),
+                      const SizedBox(
+                        width: 16,
+                      ),
+                      Icon(
+                        Icons.error_outline,
+                        color: Colors.white,
+                      )
+                    ],
+                  ),
+                  textStyle: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
+                  decoration: BoxDecoration(
+                    color: Colors.red,
+                    borderRadius: BorderRadius.all(Radius.circular(12)),
+                    boxShadow: <BoxShadow>[
+                      BoxShadow(
+                        color: Colors.red.withOpacity(0.5),
+                        blurRadius: 8.0,
+                        spreadRadius: 3.0,
+                      )
+                    ],
+                  ),
+                  size: Size(180, 48),
+                  onPressed: () {
+                    multiStateButtonController.setButtonState = _success;
+                  }),
+              ButtonState(
+                  stateName: _success,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        _success,
                       ),
                       const SizedBox(
                         width: 16,
@@ -162,7 +140,7 @@ class _MyAppState extends State<MyApp> {
                     ],
                   ),
                   textStyle: TextStyle(color: Colors.white, fontSize: 22),
-                  boxDecoration: BoxDecoration(
+                  decoration: BoxDecoration(
                     color: Colors.green,
                     borderRadius: BorderRadius.all(Radius.circular(48)),
                     boxShadow: const <BoxShadow>[
@@ -174,12 +152,46 @@ class _MyAppState extends State<MyApp> {
                       )
                     ],
                   ),
-                  size: Size(160, 48),
+                  size: Size(200, 48),
                   onPressed: () {
-                    multiStateButtonController.setButtonState = "Submit";
+                    multiStateButtonController.setButtonState = _block;
+                  }),
+              ButtonState(
+                  stateName: _block,
+                  child: Icon(
+                    Icons.block,
+                    color: Colors.white,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.blueGrey,
+                    borderRadius: BorderRadius.all(Radius.circular(12)),
+                  ),
+                  size: Size(48, 48),
+                  onPressed: () {
+                    multiStateButtonController.setButtonState = _tick;
+                  }),
+              ButtonState(
+                  stateName: _tick,
+                  child: Icon(
+                    Icons.done_rounded,
+                    color: Colors.white,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.cyan,
+                    borderRadius: BorderRadius.all(Radius.circular(24)),
+                    boxShadow: <BoxShadow>[
+                      BoxShadow(
+                        color: Colors.cyan.withOpacity(0.5),
+                        blurRadius: 6.0,
+                        spreadRadius: 3.0,
+                      )
+                    ],
+                  ),
+                  size: Size(48, 48),
+                  onPressed: () {
+                    multiStateButtonController.setButtonState = _submit;
                   }),
             ],
-            multiStateButtonController: multiStateButtonController,
           ),
         ),
       ),
