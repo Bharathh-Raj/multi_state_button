@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
-/// This is the stateful widget that the main application instantiates.
-class MultiStateButton extends StatelessWidget {
+import '../multi_state_button.dart';
+import 'multi_state_button_controller.dart';
+
+class MultiStateButton extends StatefulWidget {
   final List<ButtonState> buttonStates;
   final MultiStateButtonController multiStateButtonController;
   final Duration animationDuration;
@@ -13,18 +15,40 @@ class MultiStateButton extends StatelessWidget {
     required this.multiStateButtonController,
     this.animationDuration = const Duration(seconds: 1),
     this.animationCurve = Curves.easeIn,
-  }) : super(key: key) {
-    // multiStateButtonController._register(this.hashCode);
+  }) : super(key: key);
+
+  @override
+  _MultiStateButtonState createState() => _MultiStateButtonState();
+}
+
+class _MultiStateButtonState extends State<MultiStateButton> with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+  late final Animation<double> _animation;
+
+  @override
+  void initState() {
+    _controller = AnimationController(vsync: this, duration: widget.animationDuration);
+    _animation = CurvedAnimation(parent: _controller, curve: widget.animationCurve);
+    _controller.forward(from: 1);
+    widget.multiStateButtonController.buttonStateName.addListener(() {
+      _controller.forward(from: 0);
+    });
+    super.initState();
   }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<String>(
-      valueListenable: multiStateButtonController.buttonStateName,
+      valueListenable: widget.multiStateButtonController.buttonStateName,
       builder: (context, value, child) {
-        final ButtonState previousButtonState = buttonStates
-            .firstWhere((element) => element.stateName == multiStateButtonController._previousButtonStateName);
-        final ButtonState currentButtonState = buttonStates.firstWhere((element) => element.stateName == value);
-        return InkWell(
+        final ButtonState currentButtonState = widget.buttonStates.firstWhere((element) => element.stateName == value);
+        return GestureDetector(
           onTap: currentButtonState.onPressed,
           child: AnimatedContainer(
             padding: EdgeInsets.all(0),
@@ -34,22 +58,15 @@ class MultiStateButton extends StatelessWidget {
             color: currentButtonState.boxDecoration == null ? currentButtonState.color : null,
             decoration: currentButtonState.boxDecoration,
             alignment: currentButtonState.alignment,
-            duration: animationDuration,
-            curve: animationCurve,
-            // child: currentButtonState.child,
+            duration: widget.animationDuration,
+            curve: widget.animationCurve,
             child: AnimatedDefaultTextStyle(
-              duration: animationDuration,
-              curve: animationCurve,
-              style: currentButtonState.textStyle ?? TextStyle(),
-              child: AnimatedCrossFade(
-                crossFadeState: CrossFadeState.showSecond,
-                duration: animationDuration,
-                firstChild: previousButtonState.child,
-                secondChild: currentButtonState.child,
-                firstCurve: animationCurve,
-                sizeCurve: animationCurve,
-                secondCurve: animationCurve,
-                reverseDuration: animationDuration,
+              duration: widget.animationDuration,
+              curve: widget.animationCurve,
+              style: currentButtonState.textStyle ?? TextStyle(fontSize: 12),
+              child: FadeTransition(
+                opacity: _animation,
+                child: currentButtonState.child,
               ),
             ),
             clipBehavior: currentButtonState.clipBehavior,
@@ -62,60 +79,4 @@ class MultiStateButton extends StatelessWidget {
       },
     );
   }
-}
-
-class MultiStateButtonController {
-  MultiStateButtonController({required String initialStateName})
-      : _buttonStateName = ValueNotifier(initialStateName),
-        _previousButtonStateName = initialStateName;
-
-  String _previousButtonStateName;
-  final ValueNotifier<String> _buttonStateName;
-  ValueNotifier<String> get buttonStateName => _buttonStateName;
-  set setButtonState(String stateName) {
-    if (_buttonStateName.value != stateName) {
-      _previousButtonStateName = _buttonStateName.value;
-      _buttonStateName.value = stateName;
-    }
-  }
-
-  // int? _hashCodeOfButton;
-  // int? get isRegistered => _hashCodeOfButton;
-  // void _register(int hashCode) {
-  //   assert(_hashCodeOfButton == null || _hashCodeOfButton == hashCode,
-  //       "MultiStateButtonController already registered with another MultiStateButton with hashCode $_hashCodeOfButton");
-  //   _hashCodeOfButton = hashCode;
-  // }
-}
-
-class ButtonState {
-  final String stateName;
-  final VoidCallback? onPressed;
-  final Color color;
-  final Widget child;
-  final Size? size;
-  final BoxDecoration? boxDecoration;
-  final AlignmentGeometry alignment;
-  final TextStyle? textStyle;
-  final Matrix4? transform;
-  final Clip clipBehavior;
-  final Decoration? foregroundDecoration;
-  final VoidCallback? onAnimationEnd;
-  final AlignmentGeometry? transformAlignment;
-
-  ButtonState({
-    required this.stateName,
-    this.onPressed,
-    this.child = const SizedBox(),
-    this.textStyle,
-    this.size,
-    this.color = Colors.blue,
-    this.boxDecoration,
-    this.alignment = Alignment.center,
-    this.transform,
-    this.clipBehavior = Clip.none,
-    this.foregroundDecoration,
-    this.onAnimationEnd,
-    this.transformAlignment,
-  });
 }
