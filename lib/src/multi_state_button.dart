@@ -4,17 +4,26 @@ import '../multi_state_button.dart';
 import 'multi_state_button_controller.dart';
 
 class MultiStateButton extends StatefulWidget {
+  /// List of button states.
   final List<ButtonState> buttonStates;
+
+  /// Used to change the current state of the button
   final MultiStateButtonController multiStateButtonController;
-  final Duration animationDuration;
-  final Curve animationCurve;
+
+  /// Transition duration between button state transition.
+  /// Defaults to 500 milliseconds
+  final Duration transitionDuration;
+
+  /// Transition curve between button state transition.
+  /// Defaults to [Curves.easeIn]
+  final Curve transitionCurve;
 
   MultiStateButton({
     Key? key,
     required this.buttonStates,
     required this.multiStateButtonController,
-    this.animationDuration = const Duration(milliseconds: 500),
-    this.animationCurve = Curves.easeIn,
+    this.transitionDuration = const Duration(milliseconds: 500),
+    this.transitionCurve = Curves.easeIn,
   }) : super(key: key);
 
   @override
@@ -27,8 +36,8 @@ class _MultiStateButtonState extends State<MultiStateButton> with SingleTickerPr
 
   @override
   void initState() {
-    _controller = AnimationController(vsync: this, duration: widget.animationDuration);
-    _animation = CurvedAnimation(parent: _controller, curve: widget.animationCurve);
+    _controller = AnimationController(vsync: this, duration: widget.transitionDuration);
+    _animation = CurvedAnimation(parent: _controller, curve: widget.transitionCurve);
     _controller.forward(from: 1);
     widget.multiStateButtonController.buttonStateName.addListener(() {
       _controller.forward(from: 0);
@@ -58,11 +67,11 @@ class _MultiStateButtonState extends State<MultiStateButton> with SingleTickerPr
             color: currentButtonState.decoration == null ? currentButtonState.color : null,
             decoration: currentButtonState.decoration,
             alignment: currentButtonState.alignment,
-            duration: widget.animationDuration,
-            curve: widget.animationCurve,
+            duration: widget.transitionDuration,
+            curve: widget.transitionCurve,
             child: AnimatedDefaultTextStyle(
-              duration: widget.animationDuration,
-              curve: widget.animationCurve,
+              duration: widget.transitionDuration,
+              curve: widget.transitionCurve,
               style: currentButtonState.textStyle ?? TextStyle(fontSize: 12),
               child: FadeTransition(
                 opacity: _animation,
