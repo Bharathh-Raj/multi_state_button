@@ -12,7 +12,7 @@ A package which provides multiple states for a button with endless customizabili
 
 ```yaml
 dependencies:
-  multi_state_button: ^1.1.0
+  multi_state_button: ^1.1.1
 ```
 
 ### Super simple to use
@@ -90,6 +90,8 @@ class MyApp extends StatelessWidget {
 ```dart
 class MultiStateButton extends StatefulWidget {
   /// List of button states.
+  /// Note: Default initial State is the first button state.
+  /// Can override this behaviour with [initialStateName] constructor parameter of [MultiStateButtonController].
   final List<ButtonState> buttonStates;
 
   /// Used to change the current state of the button
