@@ -12,7 +12,7 @@ A package which provides multiple states for a button with endless customizabili
 
 ```yaml
 dependencies:
-  multi_state_button: ^1.1.1
+  multi_state_button: ^1.1.2
 ```
 
 ### Super simple to use

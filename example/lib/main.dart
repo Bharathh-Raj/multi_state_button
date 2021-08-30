@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
   static const String _block = "Block";
   static const String _success = "Success";
   static const String _tick = "Tick";
-  final MultiStateButtonController multiStateButtonController = MultiStateButtonController(initialStateName: _submit);
+  final MultiStateButtonController multiStateButtonController = MultiStateButtonController();
 
   @override
   Widget build(BuildContext context) {

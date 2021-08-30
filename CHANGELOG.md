@@ -1,3 +1,7 @@
+# 1.1.2
+
+- fix: Null textStyle without descendant text widget causes issue(#1)
+
 # 1.1.1
 
 - fix: set default state as first ButtonState for MultiStateButton
