@@ -81,8 +81,8 @@ class _MultiStateButtonState extends State<MultiStateButton>
               duration: widget.transitionDuration,
               curve: widget.transitionCurve,
               // Default theme's text style uses textStyle with inherit is false. Passing it causeing error. Thus overriding it with inherit as true
-              style:
-                  currentButtonState.textStyle ?? const TextStyle(fontSize: 12),
+              style: currentButtonState.textStyle?.copyWith(inherit: true) ??
+                  const TextStyle(fontSize: 12),
               child: FadeTransition(
                 opacity: _animation,
                 child: currentButtonState.child,
