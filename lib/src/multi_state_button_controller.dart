@@ -3,7 +3,7 @@ import 'package:multi_state_button/multi_state_button.dart';
 
 class MultiStateButtonController {
   /// Pass the [ButtonState.stateName] to set the initialState.
-  MultiStateButtonController({required String initialStateName})
+  MultiStateButtonController({String initialStateName = ""})
       : _buttonStateName = ValueNotifier(initialStateName);
 
   final ValueNotifier<String> _buttonStateName;

@@ -5,6 +5,8 @@ import 'multi_state_button_controller.dart';
 
 class MultiStateButton extends StatefulWidget {
   /// List of button states.
+  /// Note: Default initial State is the first button state.
+  /// Can override this behaviour with [initialStateName] constructor parameter of [MultiStateButtonController].
   final List<ButtonState> buttonStates;
 
   /// Used to change the current state of the button
@@ -59,8 +61,10 @@ class _MultiStateButtonState extends State<MultiStateButton>
     return ValueListenableBuilder<String>(
       valueListenable: widget.multiStateButtonController.buttonStateName,
       builder: (context, value, child) {
-        final ButtonState currentButtonState = widget.buttonStates
-            .firstWhere((element) => element.stateName == value);
+        final ButtonState currentButtonState = value.isEmpty
+            ? widget.buttonStates.first
+            : widget.buttonStates
+                .firstWhere((element) => element.stateName == value);
         return GestureDetector(
           onTap: currentButtonState.onPressed,
           child: AnimatedContainer(
