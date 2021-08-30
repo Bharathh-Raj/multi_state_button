@@ -41,8 +41,7 @@ class ButtonState {
   /// When [transform] is null, the value of this property is ignored.
   final AlignmentGeometry? transformAlignment;
 
-  /// Button with multiple states.
-  /// Note: For better text transition between states,
+  /// Note: For better text transition between states,pass textStyle into [ButtonState.textStyle] property.
   const ButtonState({
     required this.stateName,
     this.child = const SizedBox(),

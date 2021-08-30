@@ -64,8 +64,6 @@ class _MultiStateButtonState extends State<MultiStateButton>
         return GestureDetector(
           onTap: currentButtonState.onPressed,
           child: AnimatedContainer(
-            padding: EdgeInsets.all(0),
-            margin: EdgeInsets.all(0),
             width: currentButtonState.size?.width,
             height: currentButtonState.size?.height,
             color: currentButtonState.decoration == null

@@ -1,6 +1,7 @@
 # multi_state_button
 [![Pub](https://img.shields.io/badge/null%20safe-%E2%9C%94-brightgreen)](https://pub.dartlang.org/packages/level_map) [![support](https://img.shields.io/badge/github-level__map-brightgreen?style=flat)](https://github.com/Bharathh-Raj/multi_state_button/tree/main/example)
 [![support](https://img.shields.io/badge/platform-flutter%7Cflutter%20web%7Cwindows%7Clinux%7Cmac%20os-ff69b4.svg?style=flat)](https://github.com/Bharathh-Raj/level_map)
+
 A package which provides multiple states for a button with endless customizability.
 
 [![Sample](https://i.imgur.com/vxQKlhW.gif)](https://github.com/Bharathh-Raj/multi_state_button)
@@ -11,7 +12,7 @@ A package which provides multiple states for a button with endless customizabili
 
 ```yaml
 dependencies:
-  multi_state_button: ^1.0.0
+  multi_state_button: ^1.1.0
 ```
 
 ### Super simple to use
@@ -101,6 +102,14 @@ class MultiStateButton extends StatefulWidget {
   /// Transition curve between button state transition.
   /// Defaults to [Curves.easeIn]
   final Curve transitionCurve;
+}
+```
+
+### SingleStateButton properties
+```dart
+class SingleStateButton extends StatelessWidget {
+  /// State for single state button
+  final ButtonState buttonState;
 }
 ```
 
